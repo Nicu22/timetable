@@ -41,13 +41,10 @@ class Lesson(models.Model):
         FRIDAY = 5
         SATURDAY = 6 
 
-    # TODO: Adauga pls si pentru saptamina la fel
-
     lesson_name = models.CharField(max_length=50)
-    prof = models.ManyToManyField(Prof, null=True)
+    prof = models.ManyToManyField(Prof)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
-    #week_day = models.CharField(max_length=10) # TODO change me please to chocies!
     week_day = models.IntegerField(choices=WeekDay.choices)
     lesson_type = models.IntegerField(choices=IsOdd.choices, default=IsOdd.WEEKLY)
     timeslot = models.IntegerField(choices=LessonNumber.choices)
