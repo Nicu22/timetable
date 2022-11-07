@@ -21,9 +21,9 @@ class RoomSerializer(serializers.ModelSerializer):
  
 
 class LessonSerializer(serializers.ModelSerializer):
-    room_id = RoomSerializer(read_only=True, many=True)
-    group_id = GroupSerializer(read_only=True, many=True)
-    prof = ProfSerializer(read_only=True)
+    room = RoomSerializer(read_only=True)
+    group = GroupSerializer(read_only=True)
+    prof = ProfSerializer(read_only=True, many=True)
     
 
     class Meta:
@@ -31,9 +31,8 @@ class LessonSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def create(self, validated_data):
-        validated_data["group_id"]=self.initial_data["group"]
-        validated_data["room_id"]=self.initial_data["room"]
-        breakpoint()
+        validated_data["group_id"]=self.initial_data["group_id"]
+        validated_data["room_id"]=self.initial_data["room_id"]
         lesson = models.Lesson.objects.create(**validated_data)
         lesson.prof.add(self.initial_data["prof"]) 
         
