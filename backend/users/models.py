@@ -55,10 +55,3 @@ obj_name = models.ObjectName.objects.create(object_name='Ghidare',grup=grup, roo
 obj_name.prof.add(prof.instance)
 """
 
-"""
-TODO
-serializers viewuri
-p/u posturi?
-[DONE]redenumire clase/variabile -> human readable 
-
-"""

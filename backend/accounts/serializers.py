@@ -4,8 +4,8 @@ from accounts import models
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['username']
-        #fields = '__all__'
+        #fields = ['username']
+        fields = '__all__'
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
