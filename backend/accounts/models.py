@@ -14,3 +14,6 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
+
+#for user in User.objects.all():
+    #Token.objects.get_or_create(user=user)
