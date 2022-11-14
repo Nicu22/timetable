@@ -18,7 +18,7 @@ class GroupView(generics.ListCreateAPIView):
 
 class RoomView(generics.ListCreateAPIView, APIView):
     permission_classes = [IsAuthenticated]
-
+    
     queryset = models.Room.objects.all()
     serializer_class = serializers.RoomSerializer 
     

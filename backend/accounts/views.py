@@ -13,6 +13,7 @@ from django.conf import settings
 from accounts import models
 
 
+'''
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -26,6 +27,7 @@ class CustomAuthToken(ObtainAuthToken):
             'email': user.email
         })
 
+'''
 class UserView(generics.ListCreateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
@@ -43,9 +45,14 @@ def login_view(request):
         msg = {'error': 'WRONG PASSWORD'}
         return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
     
-    #date202211111452
-    user.auth_token.key = Token.generate_key()  
-    
+    try:
+        token = Token.objects.get(user_id=user.pk)
+        token.delete()
+        new_token = Token.generate_key()
+    except Token.DoesNotExist:
+        new_token = Token.generate_key()
+
+    token = Token.objects.create(key=new_token, user_id=user.pk)
     data = {
         #'email': serializer.data['email'],
         #'password': serializer.data['password'],
@@ -54,7 +61,7 @@ def login_view(request):
     
     return response.Response(data)
     
-#TODO: la logare – token
+#TODO: log out
 
 
 
