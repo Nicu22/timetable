@@ -9,4 +9,4 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
     #Token – generate_key ?
-    #
+    #/home/niciu/dj git/timetable/backend/accounts/signals.py
