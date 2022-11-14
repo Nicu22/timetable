@@ -3,10 +3,17 @@ from accounts import models, serializers
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+#for time check on token authentication:
+import datetime
+import pytz
+from django.utils import timezone
+from django.conf import settings
+from accounts import models
 
 
 class CustomAuthToken(ObtainAuthToken):
-
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -24,7 +31,6 @@ class UserView(generics.ListCreateAPIView):
     serializer_class = serializers.UserSerializer
 
 @decorators.api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def login_view(request):
     serializer = serializers.LoginSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -36,12 +42,23 @@ def login_view(request):
     if user.check_password(serializer.data['password']) is False:
         msg = {'error': 'WRONG PASSWORD'}
         return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    
+    #date202211111452
+    user.auth_token.key = Token.generate_key()  
+    
     data = {
-        'email': serializer.data['email'],
-        'password': serializer.data['password'],
+        #'email': serializer.data['email'],
+        #'password': serializer.data['password'],
         'token': user.auth_token.key
     }
+    
     return response.Response(data)
     
-
 #TODO: la logare – token
+
+
+
+'''@decorators.api_view(['POST'])
+def login_try(request):
+    sesrializer = serializers.LoginSerializer(data=request.data)
+'''

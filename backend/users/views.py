@@ -17,13 +17,11 @@ class GroupView(generics.ListCreateAPIView):
     serializer_class = serializers.GroupSerializer 
 
 class RoomView(generics.ListCreateAPIView, APIView):
+    permission_classes = [IsAuthenticated]
+
     queryset = models.Room.objects.all()
     serializer_class = serializers.RoomSerializer 
-    def get(self, request, format=None):
-        content = {
-            'status': 'request was permitted'
-        }
-        return Response(content)
+    
 
 
 '''

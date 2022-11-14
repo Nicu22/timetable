@@ -1,8 +1,13 @@
 from django.db import models
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 
 class Prof(models.Model):
+    
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
@@ -15,14 +20,17 @@ class Room(models.Model):
     room_number = models.CharField(max_length=10, unique=True)
 
 
-class Lesson(models.Model):
-
+class Lesson(models.Model, APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    
     class IsOdd(models.IntegerChoices):
         WEEKLY = 0    
         ODD = 1
         EVEN = 2
-        
-    
+
+
     class LessonNumber(models.IntegerChoices):
         ONE = 1
         TWO = 2
@@ -40,6 +48,7 @@ class Lesson(models.Model):
         THURSDAY = 4
         FRIDAY = 5
         SATURDAY = 6 
+
 
     lesson_name = models.CharField(max_length=50)
     prof = models.ManyToManyField(Prof)
