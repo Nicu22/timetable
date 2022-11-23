@@ -4,37 +4,43 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
 class LessonView(generics.ListCreateAPIView):
     queryset = models.Lesson.objects.all()
     serializer_class = serializers.LessonSerializer
+
+    
+class LessonDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Lesson.objects.all()
+    serializer_class = serializers.LessonSerializer
+
 
 class ProfView(generics.ListCreateAPIView):
     queryset = models.Prof.objects.all()
     serializer_class = serializers.ProfSerializer 
 
+
+class ProfDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Prof.objects.all()
+    serializer_class = serializers.ProfSerializer 
+
+    
 class GroupView(generics.ListCreateAPIView):
     queryset = models.Group.objects.all()
     serializer_class = serializers.GroupSerializer 
 
-class RoomView(generics.ListCreateAPIView, APIView):
-    permission_classes = [IsAuthenticated]
+
+class GroupDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Group.objects.all()
+    serializer_class = serializers.GroupSerializer 
     
+    
+class RoomView(generics.ListCreateAPIView):
+    #permission_classes = [IsAuthenticated]
     queryset = models.Room.objects.all()
     serializer_class = serializers.RoomSerializer 
+   
     
-
-
-'''
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-class ExampleView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        content = {
-            'status': 'request was permitted'
-        }
-        return Response(content)
-        '''
+class RoomDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Room.objects.all()
+    serializer_class = serializers.RoomSerializer 

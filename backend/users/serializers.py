@@ -37,5 +37,4 @@ class LessonSerializer(serializers.ModelSerializer):
         lesson.prof.add(self.initial_data["prof"]) 
         
         return lesson
-    #Fix The Error serializer.data
 
