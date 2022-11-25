@@ -7,9 +7,8 @@ from rest_framework.views import APIView
 
 
 class Prof(models.Model):
-    
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, unique=True)
+    last_name = models.CharField(max_length=50, unique=True)
 
 
 class Group(models.Model):
@@ -51,23 +50,10 @@ class Lesson(models.Model, APIView):
 
 
     lesson_name = models.CharField(max_length=50)
-    prof = models.ManyToManyField(Prof)
+    prof = models.ForeignKey(Prof, on_delete=models.CASCADE, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
     week_day = models.IntegerField(choices=WeekDay.choices)
     lesson_type = models.IntegerField(choices=IsOdd.choices, default=IsOdd.WEEKLY)
     timeslot = models.IntegerField(choices=LessonNumber.choices)
 
-
-"""
-obj_name = models.ObjectName.objects.create(object_name='Ghidare',grup=grup, room=room, week_day='Luni', peer_number=1)
-obj_name.prof.add(prof.instance)
-"""
-
-"""
-TODO
-serializers viewuri
-p/u posturi?
-[DONE]redenumire clase/variabile -> human readable 
-
-"""

@@ -18,12 +18,12 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Room
         fields = '__all__'
- 
+
 
 class LessonSerializer(serializers.ModelSerializer):
     room = RoomSerializer(read_only=True)
     group = GroupSerializer(read_only=True)
-    prof = ProfSerializer(read_only=True, many=True)
+    prof = ProfSerializer(read_only=True)
     
 
     class Meta:
@@ -33,8 +33,30 @@ class LessonSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data["group_id"]=self.initial_data["group_id"]
         validated_data["room_id"]=self.initial_data["room_id"]
+        validated_data["prof_id"]=self.initial_data["prof_id"]
+        lesson = models.Lesson.objects.create(**validated_data)
+        return lesson
+    
+
+    
+"""
+class LessonSerializer(serializers.ModelSerializer):
+    room = RoomSerializer(read_only=True)
+    group = GroupSerializer(read_only=True)
+    prof = ProfSerializer(read_only=True, many=True)
+
+
+    class Meta:
+        model = models.Lesson
+        fields = '__all__'
+    
+        
+    def create(self, validated_data):
+        validated_data["group_id"]=self.initial_data["group_id"]
+        validated_data["room_id"]=self.initial_data["room_id"]
         lesson = models.Lesson.objects.create(**validated_data)
         lesson.prof.add(self.initial_data["prof"]) 
         
         return lesson
-
+    
+"""
